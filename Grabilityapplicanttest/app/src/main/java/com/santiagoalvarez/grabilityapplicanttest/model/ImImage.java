@@ -1,29 +1,29 @@
 
-package model;
+package com.santiagoalvarez.grabilityapplicanttest.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Category implements Serializable {
+public class ImImage extends SimpleLabel implements Serializable {
 
-    private static final long serialVersionUID = 2384380758840359656L;
+    private static final long serialVersionUID = 1139488738087777834L;
     @SerializedName("attributes")
     @Expose
-    private CategoryAttributes attributes;
+    private ImImageAttributes attributes;
 
     /**
      * @return The attributes
      */
-    public CategoryAttributes getAttributes() {
+    public ImImageAttributes getAttributes() {
         return attributes;
     }
 
     /**
      * @param attributes The attributes
      */
-    public void setAttributes(CategoryAttributes attributes) {
+    public void setAttributes(ImImageAttributes attributes) {
         this.attributes = attributes;
     }
 

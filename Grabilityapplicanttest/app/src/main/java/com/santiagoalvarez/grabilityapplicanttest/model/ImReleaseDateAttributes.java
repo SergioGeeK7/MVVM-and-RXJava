@@ -1,5 +1,5 @@
 
-package model;
+package com.santiagoalvarez.grabilityapplicanttest.model;
 
 import java.io.Serializable;
 
