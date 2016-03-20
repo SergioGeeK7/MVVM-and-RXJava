@@ -4,4 +4,7 @@
 
     <!-- Splash -->
     <string name="splash_message">Hello!</string>
+
+    <!-- Categories -->
+    <string name="categories_ab_title">Categories</string>
 </resources>
