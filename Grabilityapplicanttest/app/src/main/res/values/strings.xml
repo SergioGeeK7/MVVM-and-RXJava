@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Grability applicant test</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Splash -->
+    <string name="splash_message">Hello!</string>
 </resources>
