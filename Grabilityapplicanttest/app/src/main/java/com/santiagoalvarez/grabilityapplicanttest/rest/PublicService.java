@@ -1,7 +1,7 @@
 package com.santiagoalvarez.grabilityapplicanttest.rest;
 
 
-import com.santiagoalvarez.grabilityapplicanttest.model.Feed;
+import com.santiagoalvarez.grabilityapplicanttest.model.Data;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -18,7 +18,7 @@ public class PublicService {
         this.apiService = apiService;
     }
 
-    public Observable<Feed> feed() {
+    public Observable<Data> feed() {
         return apiService.feed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

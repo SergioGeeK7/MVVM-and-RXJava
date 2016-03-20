@@ -1,8 +1,8 @@
 package com.santiagoalvarez.grabilityapplicanttest.rest;
 
-import com.santiagoalvarez.grabilityapplicanttest.model.Feed;
+import com.santiagoalvarez.grabilityapplicanttest.model.Data;
 
-import retrofit.http.GET;
+import retrofit2.http.GET;
 import rx.Observable;
 
 /**
@@ -11,5 +11,5 @@ import rx.Observable;
 public interface ApiService {
 
     @GET("us/rss/topfreeapplications/limit=20/json")
-    Observable<Feed> feed();
+    Observable<Data> feed();
 }
