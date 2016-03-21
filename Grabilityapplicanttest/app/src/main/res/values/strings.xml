@@ -1,10 +1,20 @@
 <resources>
+
+    <!-- General -->
     <string name="app_name">Grability applicant test</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Error -->
+    <string name="error_no_internet_connection">No internet connection</string>
+    <string name="error_general">There is an error</string>
 
     <!-- Splash -->
     <string name="splash_message">Hello!</string>
 
     <!-- Categories -->
     <string name="categories_ab_title">Categories</string>
+
+    <!-- Home -->
+    <string name="home_ab_title">Home</string>
+
 </resources>

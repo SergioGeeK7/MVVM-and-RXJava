@@ -18,6 +18,11 @@ public class PublicService {
         this.apiService = apiService;
     }
 
+    /**
+     * retrieve fresh Data
+     *
+     * @return {@code Observable<Data> source}
+     */
     public Observable<Data> feed() {
         return apiService.feed()
                 .subscribeOn(Schedulers.io())

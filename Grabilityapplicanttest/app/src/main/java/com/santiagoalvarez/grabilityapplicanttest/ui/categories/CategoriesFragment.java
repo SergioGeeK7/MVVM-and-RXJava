@@ -3,7 +3,6 @@ package com.santiagoalvarez.grabilityapplicanttest.ui.categories;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,18 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.santiagoalvarez.grabilityapplicanttest.R;
+import com.santiagoalvarez.grabilityapplicanttest.base.BaseFragment;
 import com.santiagoalvarez.grabilityapplicanttest.databinding.FragmentCategoriesBinding;
 import com.santiagoalvarez.grabilityapplicanttest.model.Data;
 import com.santiagoalvarez.grabilityapplicanttest.rest.RestClient;
 
 import rx.Observer;
 
-public class CategoriesFragment extends Fragment {
+public class CategoriesFragment extends BaseFragment {
+
     private static final String TAG = "CategoriesFragment";
+    public static final String ARG_CATEGORY_LABEL = "ARG_CATEGORY_LABEL";
 
     private FragmentCategoriesBinding mBinding;
 
     public CategoriesFragment() {
+    }
+
+    public static CategoriesFragment newInstance(String categoryLabel) {
+        Bundle args = new Bundle();
+        args.putString(ARG_CATEGORY_LABEL, categoryLabel);
+        CategoriesFragment fragment = new CategoriesFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

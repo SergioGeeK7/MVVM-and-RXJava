@@ -2,6 +2,8 @@ package com.santiagoalvarez.grabilityapplicanttest.base;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -52,7 +54,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void handleSnackbarMessageEvent(EventSnackbarMessage event) {
-        Snackbar snack = Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), event.getText(), Snackbar.LENGTH_LONG);
+        Snackbar snack =
+                Snackbar.make(
+                        getWindow().getDecorView().findViewById(android.R.id.content)
+                        , event.getText()
+                        , Snackbar.LENGTH_LONG);
 
         if (event.getOnActionListener() != null) {
             snack.setAction(event.getActionLabel(), event.getOnActionListener())
@@ -104,4 +110,24 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public boolean isConnectedToInternet() {
+        ConnectivityManager connectivity =
+                (ConnectivityManager) getApplicationContext()
+                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] inf = connectivity.getAllNetworkInfo();
+            if (inf != null) {
+                for (int i = 0; i < inf.length; i++) {
+                    if (inf[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
+        }
+        Snackbar.make(
+                getWindow().getDecorView().findViewById(android.R.id.content)
+                , getString(R.string.error_no_internet_connection)
+                , Snackbar.LENGTH_LONG).show();
+        return false;
+    }
 }

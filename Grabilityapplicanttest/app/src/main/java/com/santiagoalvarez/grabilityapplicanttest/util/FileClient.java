@@ -2,7 +2,7 @@ package com.santiagoalvarez.grabilityapplicanttest.util;
 
 import android.content.Context;
 
-import com.santiagoalvarez.grabilityapplicanttest.model.Feed;
+import com.santiagoalvarez.grabilityapplicanttest.model.Data;
 
 import java.io.IOException;
 
@@ -17,14 +17,14 @@ public class FileClient {
         throw new UnsupportedOperationException("utility class. Please don't instantiate this class");
     }
 
-    public static Observable<Feed> saveFeed(final Context context, final Feed order) {
+    public static Observable<Data> saveData(final Context context, final Data data) {
         return Observable
-                .create(new Observable.OnSubscribe<Feed>() {
+                .create(new Observable.OnSubscribe<Data>() {
                     @Override
-                    public void call(Subscriber<? super Feed> subscriber) {
+                    public void call(Subscriber<? super Data> subscriber) {
                         if (!subscriber.isUnsubscribed()) {
                             try {
-                                FileUtils.saveObjectToDisk(context, Feed.class.getName(), order);
+                                FileUtils.saveObjectToDisk(context, Data.class.getName(), data);
                                 subscriber.onNext(null);
                                 subscriber.onCompleted();
                             } catch (IOException e) {
@@ -38,14 +38,14 @@ public class FileClient {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Observable<Feed> getFed(final Context context) {
+    public static Observable<Data> getData(final Context context) {
         return Observable
-                .create(new Observable.OnSubscribe<Feed>() {
+                .create(new Observable.OnSubscribe<Data>() {
                     @Override
-                    public void call(Subscriber<? super Feed> subscriber) {
+                    public void call(Subscriber<? super Data> subscriber) {
                         if (!subscriber.isUnsubscribed()) {
                             try {
-                                subscriber.onNext((Feed) FileUtils.getObjectFromDisk(context, Feed.class.getName()));
+                                subscriber.onNext((Data) FileUtils.getObjectFromDisk(context, Data.class.getName()));
                                 subscriber.onCompleted();
                             } catch (IOException | ClassNotFoundException e) {
                                 subscriber.onError(e);
@@ -58,14 +58,14 @@ public class FileClient {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Observable<Void> deleteFeed(final Context context) {
+    public static Observable<Void> deleteData(final Context context) {
         return Observable
                 .create(new Observable.OnSubscribe<Void>() {
                     @Override
                     public void call(Subscriber<? super Void> subscriber) {
                         if (!subscriber.isUnsubscribed()) {
                             try {
-                                FileUtils.deleteObjectToDisk(context, Feed.class.getName());
+                                FileUtils.deleteObjectToDisk(context, Data.class.getName());
                                 subscriber.onNext(null);
                                 subscriber.onCompleted();
                             } catch (IOException e) {

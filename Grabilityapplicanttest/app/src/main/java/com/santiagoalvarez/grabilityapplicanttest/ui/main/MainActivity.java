@@ -11,6 +11,7 @@ import com.santiagoalvarez.grabilityapplicanttest.databinding.ActivityMainBindin
 import com.santiagoalvarez.grabilityapplicanttest.eventbus.events.EventAlertDialog;
 import com.santiagoalvarez.grabilityapplicanttest.eventbus.events.EventSnackbarMessage;
 import com.santiagoalvarez.grabilityapplicanttest.ui.categories.CategoriesFragment;
+import com.santiagoalvarez.grabilityapplicanttest.ui.home.HomeFragment;
 import com.santiagoalvarez.grabilityapplicanttest.util.navigation.FragmentNavigator;
 import com.santiagoalvarez.grabilityapplicanttest.util.navigation.FragmentNavigatorOptions;
 
@@ -36,7 +37,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViews() {
-        goToCategories();
+        goToHome();
+    }
+
+    public void goToHome() {
+        getToolbar().setTitle(getString(R.string.home_ab_title));
+        FragmentNavigator.navigateTo(getSupportFragmentManager()
+                , new HomeFragment()
+                , R.id.container
+                , new FragmentNavigatorOptions());
     }
 
     public void goToCategories() {
