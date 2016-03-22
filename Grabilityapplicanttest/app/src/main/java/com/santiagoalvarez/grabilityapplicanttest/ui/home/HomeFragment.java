@@ -36,7 +36,7 @@ import rx.schedulers.Schedulers;
 
 public class HomeFragment extends BaseFragment {
 
-    public static final String TAG = HomeFragment.class.getSimpleName() + "RX";
+    public static final String TAG = HomeFragment.class.getSimpleName();
 
     private FragmentHomeBinding mBinding;
 

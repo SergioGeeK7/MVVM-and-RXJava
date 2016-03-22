@@ -22,7 +22,7 @@
         <item name="android:background">@color/colorPrimary</item>
         <item name="tabIndicatorColor">@android:color/white</item>
         <item name="tabSelectedTextColor">@android:color/white</item>
-        <item name="tabTextColor">@android:color/white</item>
+        <item name="tabTextColor">@color/colorWhite70</item>
         <item name="tabMode">scrollable</item>
     </style>
 
