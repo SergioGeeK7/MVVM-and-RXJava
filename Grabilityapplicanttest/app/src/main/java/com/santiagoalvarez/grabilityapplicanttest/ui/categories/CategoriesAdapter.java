@@ -76,8 +76,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Da
         holder.getBinding().lLItemContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notifyItemChanged(position);
-                BusClient.getInstance().postOnUIThread(new EventSelectedItem(position), (Activity) mContext);
+                BusClient.getInstance().postOnUIThread(new EventSelectedItem(mEntries.get(position)), (Activity) mContext);
             }
         });
     }

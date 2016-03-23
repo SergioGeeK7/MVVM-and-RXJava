@@ -1,8 +1,20 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name">Grability applicant test</string>
+    <string name="app_name">Test</string>
     <string name="action_settings">Settings</string>
+
+    <!--Test-->
+    <string name="default_test_string">Lorem ipsum</string>
+    <string name="default_test_medium_string">Lorem ipsum dolor sit amet</string>
+    <string name="default_test_large_string">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pellentesque dictum elit.</string>
+    <string name="default_test_extra_large_string">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pellentesque dictum elit. Donec condimentum ultricies fermentum. Cras gravida     orci sed odio eleifend vestibulum. Cras dictum sagittis elit id congue.</string>
+    <string name="default_test_short_number">012</string>
+    <string name="default_test_medium_number">123456</string>
+    <string name="default_test_large_number">123456789</string>
+    <string name="default_test_date">01/01/2014</string>
+    <string name="default_test_hour">08:50 AM</string>
+
 
     <!-- Error -->
     <string name="error_no_internet_connection">No internet connection</string>
@@ -11,13 +23,24 @@
     <!-- Splash -->
     <string name="splash_message">Hello!</string>
 
+    <!-- Home -->
+    <string name="home_ab_title">Home</string>
+
     <!-- Categories -->
     <string name="categories_ab_title">Categories</string>
     <string name="categories_by_suffix">By %1$s</string>
     <string name="categories_price_label">%1$.2f %2$s</string>
     <string name="categories_price_free_label">FREE</string>
 
-    <!-- Home -->
-    <string name="home_ab_title">Home</string>
+    <!-- Detail-->
+    <string name="detail_released_format">Released %1$s</string>
+    <string name="detail_category_format">Category %1$s</string>
+    <string name="detail_developer">DEVELOPER</string>
+    <string name="detail_dev_link">Visit webpage</string>
+    <string name="detail_description">Description</string>
+    <string name="detail_read_more">READ MORE</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

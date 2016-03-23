@@ -1,17 +1,19 @@
 package com.santiagoalvarez.grabilityapplicanttest.eventbus.events;
 
+import com.santiagoalvarez.grabilityapplicanttest.model.Entry;
+
 /**
  * Created by santiagoalvarezmonsalve on 3/21/16.
  */
 public class EventSelectedItem {
 
-    private int selectedPosition;
+    private Entry entry;
 
-    public EventSelectedItem(int position) {
-        selectedPosition = position;
+    public EventSelectedItem(Entry entry) {
+        this.entry = entry;
     }
 
-    public int getSelectedPosition() {
-        return selectedPosition;
+    public Entry getEntry() {
+        return entry;
     }
 }

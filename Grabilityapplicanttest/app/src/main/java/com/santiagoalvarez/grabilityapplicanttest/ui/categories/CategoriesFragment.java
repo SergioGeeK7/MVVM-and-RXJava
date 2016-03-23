@@ -15,13 +15,16 @@ import com.santiagoalvarez.grabilityapplicanttest.R;
 import com.santiagoalvarez.grabilityapplicanttest.base.BaseActivity;
 import com.santiagoalvarez.grabilityapplicanttest.base.BaseFragment;
 import com.santiagoalvarez.grabilityapplicanttest.databinding.FragmentCategoriesBinding;
+import com.santiagoalvarez.grabilityapplicanttest.eventbus.events.EventSelectedItem;
 import com.santiagoalvarez.grabilityapplicanttest.model.Data;
 import com.santiagoalvarez.grabilityapplicanttest.model.Entry;
 import com.santiagoalvarez.grabilityapplicanttest.model.Feed;
 import com.santiagoalvarez.grabilityapplicanttest.rest.RestClient;
+import com.santiagoalvarez.grabilityapplicanttest.ui.main.MainActivity;
 import com.santiagoalvarez.grabilityapplicanttest.util.FileClient;
 import com.santiagoalvarez.grabilityapplicanttest.util.GridItemDecoration;
 import com.santiagoalvarez.grabilityapplicanttest.util.RxJavaUtil;
+import com.squareup.otto.Subscribe;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -178,5 +181,10 @@ public class CategoriesFragment extends BaseFragment {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Subscribe
+    public void onItemSelected(EventSelectedItem event) {
+        ((MainActivity) getActivity()).goToDetail(event.getEntry());
     }
 }

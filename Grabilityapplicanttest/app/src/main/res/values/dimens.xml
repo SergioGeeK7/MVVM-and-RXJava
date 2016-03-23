@@ -8,6 +8,7 @@
     <dimen name="default_min_touchable_area">48dp</dimen>
 
     <!-- particular views -->
+    <dimen name="default_detail_horizontal_margin">0dp</dimen>
     <dimen name="default_recycler_horizontal_margin">4dp</dimen>
     <dimen name="default_list_item_height">72dp</dimen>
     <dimen name="default_item_decorator_space">5px</dimen>
