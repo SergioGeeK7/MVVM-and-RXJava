@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        mToolbar = mMainBinding.toolbar;
+        mToolbar = mMainBinding.tActionBar;
         setSupportActionBar(mToolbar);
     }
 
