@@ -19,6 +19,7 @@
     <style name="AppTheme.TabLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/default_min_touchable_area</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="tabIndicatorColor">@android:color/white</item>
         <item name="tabSelectedTextColor">@android:color/white</item>

@@ -1,6 +1,5 @@
 package com.santiagoalvarez.grabilityapplicanttest.ui.categories;
 
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,17 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.common.eventbus.Subscribe;
 import com.santiagoalvarez.grabilityapplicanttest.R;
 import com.santiagoalvarez.grabilityapplicanttest.base.BaseActivity;
 import com.santiagoalvarez.grabilityapplicanttest.base.BaseFragment;
 import com.santiagoalvarez.grabilityapplicanttest.databinding.FragmentCategoriesBinding;
-import com.santiagoalvarez.grabilityapplicanttest.eventbus.events.EventOrientationChange;
 import com.santiagoalvarez.grabilityapplicanttest.model.Data;
 import com.santiagoalvarez.grabilityapplicanttest.model.Entry;
 import com.santiagoalvarez.grabilityapplicanttest.model.Feed;
 import com.santiagoalvarez.grabilityapplicanttest.rest.RestClient;
 import com.santiagoalvarez.grabilityapplicanttest.util.FileClient;
+import com.santiagoalvarez.grabilityapplicanttest.util.GridItemDecoration;
 import com.santiagoalvarez.grabilityapplicanttest.util.RxJavaUtil;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -92,6 +90,7 @@ public class CategoriesFragment extends BaseFragment {
                 , mIsTablet ? 3 : 1
                 , LinearLayoutManager.VERTICAL, false);
         mBinding.rVCategories.setLayoutManager(mLayoutManager);
+        mBinding.rVCategories.addItemDecoration(new GridItemDecoration(getResources().getDimensionPixelSize(R.dimen.default_item_decorator_space)));
         mBinding.rVCategories.setItemAnimator(new DefaultItemAnimator());
     }
 
@@ -179,14 +178,5 @@ public class CategoriesFragment extends BaseFragment {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Subscribe
-    public void onConfigurationChange(EventOrientationChange event) {
-        if (event.getOrientation() == Configuration.ORIENTATION_LANDSCAPE) {
-
-        } else if (event.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-
-        }
     }
 }

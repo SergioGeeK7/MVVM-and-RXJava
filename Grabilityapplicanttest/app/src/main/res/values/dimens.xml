@@ -1,11 +1,14 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
 
-    <dimen name="default_list_item_height">72dp</dimen>
-    <dimen name="default_extra_extra_small_size">1dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="default_extra_small_size">2dp</dimen>
     <dimen name="default_small_size">4dp</dimen>
     <dimen name="default_medium_size">8dp</dimen>
     <dimen name="default_large_size">16dp</dimen>
-    <dimen name="default_min_touchable_height">48dp</dimen>
+    <dimen name="default_min_touchable_area">48dp</dimen>
+
+    <!-- particular views -->
+    <dimen name="default_recycler_horizontal_margin">4dp</dimen>
+    <dimen name="default_list_item_height">72dp</dimen>
+    <dimen name="default_item_decorator_space">5px</dimen>
 </resources>
