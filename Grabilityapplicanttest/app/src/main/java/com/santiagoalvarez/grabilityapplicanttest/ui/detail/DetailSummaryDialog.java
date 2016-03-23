@@ -52,9 +52,17 @@ public class DetailSummaryDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_detail_summary, container, false);
-        Entry entry = new Entry();
-
+        initListeners();
         return mBinding.getRoot();
+    }
+
+    private void initListeners() {
+        mBinding.iVToolbarClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     @Override
