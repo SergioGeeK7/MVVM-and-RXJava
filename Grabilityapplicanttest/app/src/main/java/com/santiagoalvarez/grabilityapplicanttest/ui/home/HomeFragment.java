@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.santiagoalvarez.grabilityapplicanttest.util.CacheStrategy;
 import com.santiagoalvarez.grabilityapplicanttest.R;
-import com.santiagoalvarez.grabilityapplicanttest.base.BaseActivity;
 import com.santiagoalvarez.grabilityapplicanttest.base.BaseFragment;
 import com.santiagoalvarez.grabilityapplicanttest.databinding.FragmentHomeBinding;
 import com.santiagoalvarez.grabilityapplicanttest.eventbus.BusClient;
@@ -18,10 +18,9 @@ import com.santiagoalvarez.grabilityapplicanttest.eventbus.events.EventSnackbarM
 import com.santiagoalvarez.grabilityapplicanttest.model.Data;
 import com.santiagoalvarez.grabilityapplicanttest.model.Entry;
 import com.santiagoalvarez.grabilityapplicanttest.model.Feed;
-import com.santiagoalvarez.grabilityapplicanttest.rest.RestClient;
-import com.santiagoalvarez.grabilityapplicanttest.util.FileClient;
 import com.santiagoalvarez.grabilityapplicanttest.util.RxJavaUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,6 +28,7 @@ import java.util.Set;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.functions.Func2;
@@ -37,57 +37,80 @@ import rx.schedulers.Schedulers;
 public class HomeFragment extends BaseFragment {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
+    public static final String KEY_CURRENT_PAGER_POSITION = "KEY_CURRENT_PAGER_POSITION";
+    public static final String KEY_CURRENT_DATA = "KEY_CURRENT_DATA";
 
+    private int mCurrentPagerPosition = 0;
+    private String mSelectedCategory;
+    private Data mCurrentData;
     private FragmentHomeBinding mBinding;
-
     private AdapterHomeCategories mAdapterHomeCategories;
-    private Observable<List<String>> data;
+    private Observable<List<String>> mSource;
+    private List<String> mList = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_CURRENT_PAGER_POSITION, mCurrentPagerPosition);
+        outState.putSerializable(KEY_CURRENT_DATA, mCurrentData);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initVars();
-        initData();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        return mBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews();
+        initListeners();
+        mSource.publish(); /* when view ready populate it*/
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            mCurrentPagerPosition = savedInstanceState.getInt(KEY_CURRENT_PAGER_POSITION);
+            mBinding.vPHome.setCurrentItem(mCurrentPagerPosition, true);
+            mCurrentData = (Data) savedInstanceState.getSerializable(KEY_CURRENT_DATA);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void initVars() {
         mAdapterHomeCategories = new AdapterHomeCategories(getChildFragmentManager());
+        mSource = listObservable(new CacheStrategy.CacheStrategyBuilder(getActivity())
+                .preferDefault()
+                .build()
+                .getStrategy());
+        setServiceSubscription(dataSubscription());
     }
 
-    private void initData() {
-        Observable<Data> source;
-        if (((BaseActivity) getActivity()).isConnectedToInternet()) {
-            source = Observable.concat(
-                    RestClient.getInstance().getPublicService().feed() /* 1. network */
-                    , FileClient.getData(getActivity()) /* 2. disk */)
-                    .first();
-
-            // cache data on memory and save data to disk
-            source
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .observeOn(Schedulers.io())
-                    .map(new Func1<Data, Data>() {
-                        @Override
-                        public Data call(Data data) {
-                            FileClient.saveData(getActivity(), data);
-                            return data;
-                        }
-                    })
-                    .cache()
-                    .subscribe();
-        } else {
-            source = Observable.concat(
-                    FileClient.getData(getActivity()) /* 1. disk */
-                    , RestClient.getInstance().getPublicService().feed() /* 2. network */)
-                    .first()
-                    .cache();
-        }
-
-        data = source
+    private Observable<List<String>> listObservable(Observable<Data> observable) {
+        return observable
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(Schedulers.io())
                 .map(new Func1<Data, Feed>() {
@@ -125,22 +148,9 @@ public class HomeFragment extends BaseFragment {
                         return Arrays.asList(noDuplicates);
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        return mBinding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initViews();
-        initListeners();
-        updateUI();
+                .observeOn(AndroidSchedulers.mainThread())
+                .replay()
+                .refCount();
     }
 
     private void initViews() {
@@ -162,7 +172,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-
+                mCurrentPagerPosition = position;
             }
 
             @Override
@@ -172,29 +182,28 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    private void updateUI() {
-        //get from memory and update UI
-        setServiceSubscription(data
-                .subscribe(new Observer<List<String>>() {
-                    @Override
-                    public void onCompleted() {
+    private Subscription dataSubscription() {
+        mList.clear();
+        return mSource.subscribe(new Observer<List<String>>() {
+            @Override
+            public void onCompleted() {
+                mBinding.vPHome.setCurrentItem(mCurrentPagerPosition, true);
+            }
 
-                    }
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                BusClient.getInstance().postOnUIThread(
+                        new EventSnackbarMessage(getString(R.string.error_general))
+                        , getActivity()
+                );
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        BusClient.getInstance().postOnUIThread(
-                                new EventSnackbarMessage(getString(R.string.error_general))
-                                , getActivity()
-                        );
-                    }
-
-                    @Override
-                    public void onNext(List<String> list) {
-                        mAdapterHomeCategories.updateData(list);
-                    }
-                }));
+            @Override
+            public void onNext(List<String> list) {
+                mList.addAll(list);
+                mAdapterHomeCategories.updateData(list);
+            }
+        });
     }
-
 }

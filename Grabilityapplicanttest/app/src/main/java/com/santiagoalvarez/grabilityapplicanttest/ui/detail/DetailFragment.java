@@ -15,7 +15,6 @@ import com.santiagoalvarez.grabilityapplicanttest.R;
 import com.santiagoalvarez.grabilityapplicanttest.base.BaseFragment;
 import com.santiagoalvarez.grabilityapplicanttest.databinding.FragmentDetailBinding;
 import com.santiagoalvarez.grabilityapplicanttest.model.Entry;
-import com.santiagoalvarez.grabilityapplicanttest.ui.main.MainActivity;
 
 public class DetailFragment extends BaseFragment {
 
@@ -41,6 +40,7 @@ public class DetailFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         initVars();
     }
 
@@ -77,13 +77,6 @@ public class DetailFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 openSummaryDialog();
-            }
-        });
-
-        mBinding.tVDetailCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).goToCategory(mEntry.getCategory().getAttributes().getLabel());
             }
         });
     }

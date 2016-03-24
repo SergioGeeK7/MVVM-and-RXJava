@@ -2,7 +2,9 @@ package com.santiagoalvarez.grabilityapplicanttest.ui.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.google.common.eventbus.Subscribe;
 import com.santiagoalvarez.grabilityapplicanttest.R;
@@ -16,10 +18,14 @@ import com.santiagoalvarez.grabilityapplicanttest.ui.home.HomeFragment;
 import com.santiagoalvarez.grabilityapplicanttest.util.navigation.FragmentNavigator;
 import com.santiagoalvarez.grabilityapplicanttest.util.navigation.FragmentNavigatorOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding mMainBinding;
     private Toolbar mToolbar;
+    private List<String> titleStack = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +35,56 @@ public class MainActivity extends BaseActivity {
         initViews();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void navigateMainContent(Fragment frg, String title) {
+        FragmentNavigator.cleanFragmentStack(getSupportFragmentManager());
+        FragmentNavigator.navigateTo(getSupportFragmentManager(), frg, R.id.container, new FragmentNavigatorOptions().setAddingToStack(false));
+        titleStack.clear();
+        titleStack.add(title);
+        updateActionBarTitle();
+    }
+
+    public void navigateToLowLevel(Fragment frg, String title) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        titleStack.add(title);
+        FragmentNavigator.navigateTo(getSupportFragmentManager(), frg, R.id.container, new FragmentNavigatorOptions().setAddingToStack(true));
+        updateActionBarTitle();
+    }
+
+    public void updateActionBarTitle() {
+        getSupportActionBar().setTitle(titleStack.get(titleStack.size() - 1));
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if ((titleStack.size()) > 0) {
+            titleStack.remove(titleStack.size() - 1);
+        }
+        if (titleStack.size() > 0) {
+            updateActionBarTitle();
+        }
+        if (titleStack.size() > 1) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+        super.onBackPressed();
+
+    }
+
     private void initToolbar() {
         mToolbar = mMainBinding.tActionBar;
         setSupportActionBar(mToolbar);
-    }
-
-    private void updateToolbar(String title, boolean shouldGoBack) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(shouldGoBack);
-            getToolbar().setTitle(title);
-        }
     }
 
     private void initViews() {
@@ -46,31 +92,18 @@ public class MainActivity extends BaseActivity {
     }
 
     public void goToHome() {
-        updateToolbar(getString(R.string.home_ab_title), false);
-        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG);
-        FragmentNavigator.navigateTo(getSupportFragmentManager()
-                , homeFragment != null ? homeFragment : new HomeFragment()
-                , R.id.container
-                , new FragmentNavigatorOptions());
-    }
-
-    public void goToCategory(String categoryLabel) {
-        updateToolbar(getString(R.string.categories_ab_title), false);
-        //TODO
-//        DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
-//        FragmentNavigator.navigateTo(getSupportFragmentManager()
-//                , detailFragment != null ? detailFragment : DetailFragment.newInstance(entry)
-//                , R.id.container
-//                , new FragmentNavigatorOptions());
+        HomeFragment homeFragment = getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG) != null ?
+                (HomeFragment) getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)
+                : new HomeFragment();
+        navigateMainContent(homeFragment, getString(R.string.home_ab_title));
     }
 
     public void goToDetail(Entry entry) {
-        updateToolbar(entry.getImName().getLabel(), true);
-        DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
-        FragmentNavigator.navigateTo(getSupportFragmentManager()
-                , detailFragment != null ? detailFragment : DetailFragment.newInstance(entry)
-                , R.id.container
-                , new FragmentNavigatorOptions());
+        DetailFragment detailFragment =
+                getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG) != null ?
+                        (DetailFragment) getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG)
+                        : DetailFragment.newInstance(entry);
+        navigateToLowLevel(detailFragment, entry.getImName().getLabel());
     }
 
 

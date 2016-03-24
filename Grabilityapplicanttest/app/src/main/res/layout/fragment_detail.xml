@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="entry"
-            type="com.santiagoalvarez.grabilityapplicanttest.model.Entry"/>
+            type="com.santiagoalvarez.grabilityapplicanttest.model.Entry" />
     </data>
 
     <ScrollView
@@ -37,11 +36,11 @@
 
                     <ImageView
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/default_list_item_height"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/default_large_size"
                         android:layout_weight=".25"
                         android:adjustViewBounds="true"
-                        app:src="@{entry.getImImage().get(2).getLabel() ?? entry.getImImage().get(1).getLabel()}"/>
+                        app:src="@{entry.getImImage().get(2).getLabel() ?? entry.getImImage().get(1).getLabel()}" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -53,27 +52,26 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{entry.getImName().getLabel()}"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{@string/categories_by_suffix(entry.getImArtist().getLabel())}"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                         <TextView
-                            android:id="@+id/tVDetailCategory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/default_medium_size"
                             android:text="@{@string/detail_category_format(entry.getCategory().getAttributes().getLabel())}"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{@string/detail_released_format(entry.getImReleaseDate().getAttributes().getLabel())}"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -83,14 +81,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="@{entry.getImPrice().getAttributes().getAmount() > 0 ? @string/categories_price_label(entry.getImPrice().getAttributes().getAmount(), entry.getImPrice().getAttributes().getCurrency()) : @string/categories_price_free_label}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="@dimen/default_small_size"
                     android:layout_marginTop="@dimen/default_small_size"
-                    android:background="@android:color/darker_gray"/>
+                    android:background="@android:color/darker_gray" />
 
                 <!-- summary -->
                 <LinearLayout
@@ -102,7 +100,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/detail_description"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -111,7 +109,7 @@
                         android:ellipsize="end"
                         android:maxLines="3"
                         android:text="@{entry.getSummary().getLabel()}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                     <TextView
                         android:id="@+id/tVDetailSummaryMoreOrLess"
@@ -122,7 +120,7 @@
                         android:text="@string/detail_read_more"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorAccent"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -140,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/detail_developer"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <TextView
                     android:id="@+id/tVDetailVisitWeb"
@@ -151,7 +149,7 @@
                     android:drawablePadding="@dimen/default_small_size"
                     android:gravity="center"
                     android:text="@string/detail_dev_link"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -161,7 +159,7 @@
                     android:drawablePadding="@dimen/default_small_size"
                     android:gravity="center"
                     android:text="@{entry.getImArtist().getLabel()}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

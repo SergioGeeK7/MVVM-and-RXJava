@@ -46,11 +46,12 @@ public class FileClient {
                         if (!subscriber.isUnsubscribed()) {
                             try {
                                 subscriber.onNext((Data) FileUtils.getObjectFromDisk(context, Data.class.getName()));
-                                subscriber.onCompleted();
                             } catch (IOException | ClassNotFoundException e) {
-                                subscriber.onError(e);
+//                                subscriber.onError(e);
+                                subscriber.onNext(null);
                                 e.printStackTrace();
                             }
+                            subscriber.onCompleted();
                         }
                     }
                 })
