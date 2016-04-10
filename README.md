@@ -1,5 +1,5 @@
-# grability-applicant-test
-Grability applicant test
+# MVVM-and-RXJava
+MVVM-and-RXJava Demo
 
 * Architectural pattern: MVVM (Android Data Binding)
 * also in this project was used the Reactive pattern (RXJava)
